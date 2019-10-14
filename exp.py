@@ -32,9 +32,15 @@ class Sub(object):
     def eval(self):
         return self.left.eval() - self.right.eval()
 
+class Div(object):
+    __slots__=['left','right']
+    def __init__(self,a,b):
+        self.left=a
+        self.right=b
+    def eval(self):
+        return self.left.eval() // self.right.eval()
 
-
-e=Sub(Val(1),Val(2))
-assert e.eval()==-1
+e=Div(Val(7),Val(2))
+assert e.eval()==3
 
 print(e)
