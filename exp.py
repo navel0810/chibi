@@ -17,15 +17,24 @@ class Add(object):
         return self.left.eval() + self.right.eval()
 
 class Mul(object):
-    __slots__=['x1','x2']
+    __slots__=['left','right']
     def __init__(self,a,b):
-        self.x1=a
-        self.x2=b
+        self.left=a
+        self.right=b
     def eval(self):
-        return self.x1.eval() * self.x2.eval()
+        return self.left.eval() * self.right.eval()
+
+class Sub(object):
+    __slots__=['left','right']
+    def __init__(self,a,b):
+        self.left=a
+        self.right=b
+    def eval(self):
+        return self.left.eval() - self.right.eval()
 
 
-e=Mul(Val(1),Val(2))
-assert e.eval()==2
+
+e=Sub(Val(1),Val(2))
+assert e.eval()==-1
 
 print(e)
