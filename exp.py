@@ -34,7 +34,6 @@ def toExpr(a):
     return a
 
 class Add(Binary):
-    __slots__=['left','right']
     def __init__(self,a,b):
         self.left=toExpr(a)
         self.right=toExpr(b)
@@ -42,7 +41,6 @@ class Add(Binary):
         return self.left.eval() + self.right.eval()
 
 class Mul(Binary):
-    __slots__=['left','right']
     def __init__(self,a,b):
         self.left=toExpr(a)
         self.right=toExpr(b)
@@ -50,7 +48,6 @@ class Mul(Binary):
         return self.left.eval() * self.right.eval()
 
 class Sub(Binary):
-    __slots__=['left','right']
     def __init__(self,a,b):
         self.left=toExpr(a)
         self.right=toExpr(b)
@@ -58,7 +55,6 @@ class Sub(Binary):
         return self.left.eval() - self.right.eval()
 
 class Div(Binary):
-    __slots__=['left','right']
     def __init__(self,a,b):
         self.left=toExpr(a)
         self.right=toExpr(b)
