@@ -16,10 +16,16 @@ class Add(object):
     def eval(self):
         return self.left.eval() + self.right.eval()
 
-v=Val(1)
-assert v.eval()==1
+class Mul(object):
+    __slots__=['x1','x2']
+    def __init__(self,a,b):
+        self.x1=a
+        self.x2=b
+    def eval(self):
+        return self.x1.eval() * self.x2.eval()
 
-e=Add(Val(1),Add(Val(2),Val(3)))
-assert e.eval()==3
+
+e=Mul(Val(1),Val(2))
+assert e.eval()==2
 
 print(e)
