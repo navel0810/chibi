@@ -10,5 +10,5 @@ def parse(s:str):
         num=Add(parse(s1),parse(s2))
         return num
 
-e=parse("1+2")
+e=parse("1+2+3")
 print(e,e.eval())
