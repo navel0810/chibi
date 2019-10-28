@@ -17,8 +17,6 @@ class Binary(Expr):
     def __repr__(self):
         classname=self.__class__.__name__
         return f'{classname}({self.left},{self.right})'
-    def __eval__(self):
-        return self.left,self.right
 
 v=Val(1)
 print(v)
@@ -26,6 +24,7 @@ assert v.eval()==1
 
 assert isinstance(v,Expr)
 assert isinstance(v,Val)
+assert not isinstance(v,int)
 
 def toExpr(a):
     if not isinstance(a,Expr):
@@ -60,7 +59,7 @@ class Div(Binary):
     def eval(self):
         return self.left.eval() // self.right.eval()
 
-assert isinstance(Val(1),Binary)
+assert not isinstance(Val(1),Binary)
 assert isinstance(Div(Val(7),Val(2)),Binary)
 e=Mul(Add(1,2),3)
 assert e.eval()==9
