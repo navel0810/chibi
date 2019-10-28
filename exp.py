@@ -26,7 +26,6 @@ assert v.eval()==1
 
 assert isinstance(v,Expr)
 assert isinstance(v,Val)
-assert isinstance(v,int)
 
 def toExpr(a):
     if not isinstance(a,Expr):
