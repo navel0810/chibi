@@ -19,7 +19,6 @@ class Binary(Expr):
         return f'{classname}({self.left},{self.right})'
 
 v=Val(1)
-print(v)
 assert v.eval()==1
 
 assert isinstance(v,Expr)
