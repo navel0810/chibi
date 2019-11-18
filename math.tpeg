@@ -2,7 +2,7 @@
 example Expr 1+2
 
 Zip = {
-    Value '+' Value
+    Value ('+' Value)+
     #Add
 }
 
