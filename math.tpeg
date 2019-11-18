@@ -1,8 +1,10 @@
 
+example Expr 1
 example Expr 1+2
+example Expr 1+2+3
 
-Zip = {
-    Value ('+' Value)+
+Expr = {
+    Value ('+' Value)*
     #Add
 }
 
