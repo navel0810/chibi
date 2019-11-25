@@ -23,7 +23,9 @@ print(calc(t))
 
 
 def main():
-    pass
+    s = input('$ ')
+    t = parser(s)
+    print(calc(t))
 
 if __name__ == '__main__':
     main()
