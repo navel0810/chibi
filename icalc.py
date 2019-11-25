@@ -20,3 +20,11 @@ def calc(t):
 t = parser('1+2*3+4*5')
 print(repr(t))
 print(calc(t))
+
+
+def main():
+    pass
+
+if __name__ == '__main__':
+    main()
+
