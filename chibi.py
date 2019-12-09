@@ -62,7 +62,7 @@ class Mod(Binary):
 class Eq(Binary):
     __slots__=['left','right']
     def eval(self,env:dict):
-        return 1 if self.left.eval(env)==self.right.eval(env)
+        return 1 if self.left.eval(env) == self.right.eval(env)
 
 class Ne(Binary):
     __slots__=['left','right']
@@ -182,3 +182,9 @@ def main():
 if __name__ == '__main__':
     main()
 
+e=Block(
+    Assign('x',Val(1)),
+    Assign('y',Val(2)),
+    If(Gt(Var('x'),Var('y')),Var('x'),Var('y'))
+)
+assert e.eval({})==2
