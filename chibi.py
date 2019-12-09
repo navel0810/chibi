@@ -59,6 +59,22 @@ class Mod(Binary):
     def eval(self, env: dict):
         return self.left.eval(env) % self.right.eval(env)
 
+class Eq(Binary):
+    __slots__=['left','right']
+    def eval(self,env:dict):
+        return 1 if self.left.eval(env)==self.right.eval(env)
+
+class Ne(Binary):
+    __slots__=['left','right']
+    def eval(self,env:dict):
+        return 1 if self.left.eval(env)!=self.right.eval(env)
+
+class Lt(Binary):
+    __slots__=['left','right']
+    def eval(self,env:dict):
+        return 1 if self.left.eval(env)<self.right.eval(env)
+
+
 class Var(Expr):
     __slots__=['name']
     def __init__(self,name:str):
@@ -97,6 +113,13 @@ def conv(tree):
         return Var(str(tree))
     if tree == 'LetDecl':
         return Assign(str(tree[0]),conv(tree[1]))
+    if tree == 'Eq':
+        return Eq(conv(tree[0]),conv(tree[1]))
+    if tree == 'Ne':
+        return Ne(conv(tree[0]),conv(tree[1]))
+    if tree == 'Lt':
+        return Lt(conv(tree[0]),conv(tree[1]))
+
     print('@TODO', tree.tag,repr(tree))
     return Val(str(tree))
 
