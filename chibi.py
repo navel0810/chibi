@@ -94,6 +94,8 @@ class Var(Expr):
     __slots__=['name']
     def __init__(self,name):
         self.name=name
+    def __repr__(self):
+        return self.name
     def eval(self,env:dict):
         if self.name in env:
             return env[self.name]
@@ -223,7 +225,7 @@ def run(src: str,env:dict):
         print(repr(tree))
     else:
         e = conv(tree)
-        print('env',env)
+        #print('env',env)
         print(e.eval(env))
 
 def main():
