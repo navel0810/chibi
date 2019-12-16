@@ -2,10 +2,11 @@ import pegpy
 #from pegpy.tpeg import ParseTree
 peg = pegpy.grammar('chibi.tpeg')
 parser = pegpy.generate(peg)
+
 tree = parser('1+2*3')
-#print(repr(tree))
+print(repr(tree))
 tree = parser('1@2*3')
-#print(repr(tree))
+print(repr(tree))
 
 class Expr(object):
     @classmethod
@@ -23,6 +24,8 @@ class Val(Expr):
     def eval(self, env: dict):
         return self.value
 
+e = Val(0)
+assert e.eval({}) == 0
 
 class Binary(Expr):
     __slot__ = ['left', 'right']
@@ -236,10 +239,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-e=Block(
-    Assign('x',Val(1)),
-    Assign('y',Val(2)),
-    If(Gt(Var('x'),Var('y')),Var('x'),Var('y'))
-)
-assert e.eval({})==2
