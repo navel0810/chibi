@@ -59,22 +59,34 @@ class Mod(Binary):
     def eval(self, env: dict):
         return self.left.eval(env) % self.right.eval(env)
 
-class Eq(Binary):
-    __slots__=['left','right']
-    def eval(self,env:dict):
-        return 1 if self.left.eval(env) == self.right.eval(env)
+class Eq(Binary): # left == right
+    __slots__ = ['left', 'right']
+    def eval(self, env: dict):   # cond ? x : y
+        return 1 if self.left.eval(env) == self.right.eval(env) else 0
 
-class Ne(Binary):
-    __slots__=['left','right']
-    def eval(self,env:dict):
-        return 1 if self.left.eval(env)!=self.right.eval(env)
+class Ne(Binary): # left != right
+    __slots__ = ['left', 'right']
+    def eval(self, env: dict):   # cond ? x : y
+        return 1 if self.left.eval(env) != self.right.eval(env) else 0
 
-class Lt(Binary):
-    __slots__=['left','right']
-    def eval(self,env:dict):
-        return 1 if self.left.eval(env)<self.right.eval(env)
+class Lt(Binary): # left != right
+    __slots__ = ['left', 'right']
+    def eval(self, env: dict):   # cond ? x : y
+        return 1 if self.left.eval(env) < self.right.eval(env) else 0
 
+class Lte(Binary): # left != right
+    __slots__ = ['left', 'right']
+    def eval(self, env: dict):   # cond ? x : y
+        return 1 if self.left.eval(env) <= self.right.eval(env) else 0
 
+class Gt(Binary): # left != right
+    __slots__ = ['left', 'right']
+    def eval(self, env: dict):   # cond ? x : y
+        return 1 if self.left.eval(env) > self.right.eval(env) else 0
+class Gte(Binary): # left != right
+    __slots__ = ['left', 'right']
+    def eval(self, env: dict):   # cond ? x : y
+        return 1 if self.left.eval(env) >= self.right.eval(env) else 0
 class Var(Expr):
     __slots__=['name']
     def __init__(self,name:str):
@@ -103,28 +115,30 @@ class Block(Expr):
             e.eval(env)
 
 class While(Expr):
-    __slots__=['cond','body']:
-    def __init__(self,cond,body):
-        self.cond=cond
-        self.body=body
-    def eval(self,env):
-        while self.cond.eval(env)!=0:
+    __slots__ = ['cond', 'body']
+    def __init__(self, cond, body):
+        self.cond = cond
+        self.body = body
+    def eval(self, env):
+        while self.cond.eval(env) != 0:
             self.body.eval(env)
 
 
 
 class If(Expr):
-    __sots__=['cond','then','else']
-    def __init__(cond,then,else_):
-        self.cond=cond
-        self.then=then
-        self.else_=else_
-    def eval(self,env):
-        yesorno=self.cond.eval(env)
-        if yesorno==1:
+    __slots__ = ['cond', 'then', 'else_']
+    def __init__(self, cond, then, else_ ):
+        self.cond = cond
+        self.then = then
+        self.else_ = else_
+    def eval(self, env):
+        yesorno = self.cond.eval(env)
+        if yesorno == 1:
             return self.then.eval(env)
         else:
             return self.else_.eval(env)
+
+
 
 def conv(tree):
     if tree == 'Block':
@@ -155,6 +169,10 @@ def conv(tree):
         return Ne(conv(tree[0]),conv(tree[1]))
     if tree == 'Lt':
         return Lt(conv(tree[0]),conv(tree[1]))
+    if tree == 'Gt':
+        return Gt(conv(tree[0]), conv(tree[1]))
+    if tree == 'Gte':
+        return Gte(conv(tree[0]), conv(tree[1]))
 
     print('@TODO', tree.tag,repr(tree))
     return Val(str(tree))
