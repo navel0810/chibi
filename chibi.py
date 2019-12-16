@@ -123,7 +123,36 @@ class While(Expr):
         while self.cond.eval(env) != 0:
             self.body.eval(env)
 
+class Lambda(Expr):
+    __slots__ = ['name','body']
+    def __init__(self,name,body):
+        self.name = name
+        self.body = body
+    def __repr__(self):
+        return f'λ{self.name} . {str(self.body)}'
+    def eval(self,env):
+        pass
 
+f = Lambda('x',Add(Var('x'),1))
+print(repr(f))
+
+class FuncApp(Expr):
+    __slots__ = ['func','param']
+    def __init__(self,func: Lambda,param):
+        self.func = func
+        self.param = Expr.new(param)
+    def __repr__(self):
+        return f'({repr(self.func)}) ({repr(self.param)})'
+    
+    def eval(self,env):
+        v = self.param.eval(env)
+        name = self.func.name
+        env[name] = v
+        return self.func.body.eval(env)
+
+e = FuncApp(f,Add(1,1))
+
+print(e,'=>',e.eval({}))
 
 class If(Expr):
     __slots__ = ['cond', 'then', 'else_']
