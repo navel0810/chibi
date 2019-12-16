@@ -22,8 +22,7 @@ class Val(Expr):
         return f'Val({self.value})'
     def eval(self, env: dict):
         return self.value
-e = Val(0)
-assert e.eval({}) == 0
+
 
 class Binary(Expr):
     __slot__ = ['left', 'right']
@@ -136,6 +135,12 @@ class Lambda(Expr):
 f = Lambda('x',Add(Var('x'),1))
 print(repr(f))
 
+def copy(env):
+    newenv = {}
+    for x in env.keys:
+        newenv[x] = env[x]
+    return env
+
 class FuncApp(Expr):
     __slots__ = ['func','param']
     def __init__(self,func: Lambda,param):
@@ -172,6 +177,10 @@ class If(Expr):
 def conv(tree):
     if tree == 'Block':
         return conv(tree[0])
+    if tree == 'FuncDecl':
+        return Assign(str(tree[0]),Lambda(str(tree[1]),conv(tree[2])))
+    if tree == 'FuncApp':
+        return FuncApp(conv(tree[0]),conv(tree[1]))  
     if tree == 'If':
         return If(conv(tree[0]),conv(tree[1]),conv(tree[2]))
     if tree == 'While':
