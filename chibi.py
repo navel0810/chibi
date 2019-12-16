@@ -3,9 +3,9 @@ import pegpy
 peg = pegpy.grammar('chibi.tpeg')
 parser = pegpy.generate(peg)
 tree = parser('1+2*3')
-print(repr(tree))
+#print(repr(tree))
 tree = parser('1@2*3')
-print(repr(tree))
+#print(repr(tree))
 
 class Expr(object):
     @classmethod
@@ -86,11 +86,12 @@ class Gte(Binary): # left != right
     __slots__ = ['left', 'right']
     def eval(self, env: dict):   # cond ? x : y
         return 1 if self.left.eval(env) >= self.right.eval(env) else 0
+
 class Var(Expr):
     __slots__=['name']
-    def __init__(self,name:str):
+    def __init__(self,name):
         self.name=name
-    def eval(self,env):
+    def eval(self,env:dict):
         if self.name in env:
             return env[self.name]
         raise NameError(self.name)
@@ -155,9 +156,7 @@ class FuncApp(Expr):
         env[name] = v
         return self.func.body.eval(env)
 
-e = FuncApp(f,Add(1,1))
 
-print(e,'=>',e.eval({}))
 
 class If(Expr):
     __slots__ = ['cond', 'then', 'else_']
@@ -197,8 +196,6 @@ def conv(tree):
         return Div(conv(tree[0]),conv(tree[1]))
     if tree == 'Mod':
         return Mod(conv(tree[0]),conv(tree[1]))
-    if tree == 'Var':
-        return Var(str(tree))
     if tree == 'LetDecl':
         return Assign(str(tree[0]),conv(tree[1]))
     if tree == 'Eq':
@@ -211,6 +208,8 @@ def conv(tree):
         return Gt(conv(tree[0]), conv(tree[1]))
     if tree == 'Gte':
         return Gte(conv(tree[0]), conv(tree[1]))
+    if tree == 'Var':
+        return Var(str(tree))
 
     print('@TODO', tree.tag,repr(tree))
     return Val(str(tree))
